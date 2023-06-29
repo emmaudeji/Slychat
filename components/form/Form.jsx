@@ -5,11 +5,14 @@ import { createPost, updatePost } from "../../actions/posts";
 import { useDispatch, useSelector } from 'react-redux';
 import {Link} from 'next/link'
 import { FormInput } from "./FormInput";
+import { UnsplashPhotos } from "./UnsplashPhotos";
 
 
 const Form = ({currentId, setCurrentId}) => {
   const [user, setUser] = useState(null)
   const [show, setShow] = useState(false)
+  const [pickedImg, setPickedImg] = useState('')
+ 
 
   const [postData, setPostData] = useState({ 
      title: '', message: '', tags: '', selectedFile: '' });
@@ -18,7 +21,8 @@ const Form = ({currentId, setCurrentId}) => {
     setUser(JSON.parse(localStorage.getItem('profile')))
   }, [])
   
-    
+  
+
   const post = useSelector((state) => currentId ? state.posts.find((p) => p._id === currentId) : null) ;
 
   const dispatch = useDispatch()
@@ -61,9 +65,11 @@ const Form = ({currentId, setCurrentId}) => {
        title: '', message: '', tags: '', selectedFile: ''
       })
     setCurrentId(null);
+    setPickedImg('')
+    setShow(false)
   }
 
-  console.log('userttttt', user?.result?.name)
+
   
   if(!user?.result?.name){
     return (
@@ -87,7 +93,7 @@ const Form = ({currentId, setCurrentId}) => {
             {currentId ? `Editting a Memory` : `Create a Memory`}
           </h3>
         </div>
-        <PostForm handleChange={handleChange} handleSubmit={handleSubmit} postData={postData} clearData={clearData} setPostData={setPostData}/>
+        <PostForm handleChange={handleChange} handleSubmit={handleSubmit} postData={postData} clearData={clearData} setPostData={setPostData} pickedImg={pickedImg} setPickedImg={setPickedImg}/>
       </div>
       
 {/* for small screen */}
@@ -98,7 +104,7 @@ const Form = ({currentId, setCurrentId}) => {
             {currentId ? `Editting a Memory` : `Create a Memory`}
           </h3>
         </div>
-        { show && <PostForm handleChange={handleChange} handleSubmit={handleSubmit} postData={postData} clearData={clearData} setPostData={setPostData}/>}
+        { show && <PostForm handleChange={handleChange} handleSubmit={handleSubmit} postData={postData} clearData={clearData} setPostData={setPostData} pickedImg={pickedImg} setPickedImg={setPickedImg} setShow={setShow}/>}
       </div>
     </>
     
@@ -107,7 +113,7 @@ const Form = ({currentId, setCurrentId}) => {
 
 export default Form;
 
-export const PostForm = ({postData, handleChange, handleSubmit, clearData, setPostData}) => {
+export const PostForm = ({postData, handleChange, handleSubmit, clearData, setPostData, pickedImg, setPickedImg}) => {
   return (
     <form onSubmit={handleSubmit} className="flex gap-2 flex-col ">
         <FormInput
@@ -132,8 +138,9 @@ export const PostForm = ({postData, handleChange, handleSubmit, clearData, setPo
       
         <div className="">
           <FileBase type="file" multiple={false} onDone={({ base64 }) => setPostData({ ...postData, selectedFile: base64 })} />
-          
         </div>
+
+        <UnsplashPhotos postData={postData} setPostData={setPostData} pickedImg={pickedImg} setPickedImg={setPickedImg}/>
 
 
         <button type="submit" className="flex text-white rounded cursor-pointer hover:bg-red-800 duration-300 bg-red-500 w-full p-3 justify-center items-center">

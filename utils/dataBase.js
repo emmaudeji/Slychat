@@ -16,7 +16,7 @@ export const connectToDB = async () => {
       dbName: "chatboard",
       useNewUrlParser: true,
       useUnifiedTopology: true,
-    }
+      }
     )
 
     isConnected = true;

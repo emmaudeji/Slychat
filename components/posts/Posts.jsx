@@ -13,7 +13,7 @@ export const Posts = ({ setCurrentId }) => {
     setPosts(allPosts?.allPosts)
   }, [allPosts])
   
-  console.log('pppp', allPosts)
+  // console.log('pppp', allPosts)
   return (
     <>
       { !allPosts ? (<div className='font-semibold text2xl'> Loading... </div>) :

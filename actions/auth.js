@@ -1,5 +1,6 @@
 import { AUTH } from '../constants/actionTypes';
 import * as api from '../api/index.js';
+import { toast } from "react-hot-toast";
 
 export const signin = (inputData, navigateTo) => async (dispatch) => {
   try {
@@ -8,8 +9,9 @@ export const signin = (inputData, navigateTo) => async (dispatch) => {
     dispatch({ type: AUTH, data });
 
     navigateTo.push('/');
+    toast.success('Successfull signin')
   } catch (error) {
-    console.log(error);
+    toast.error(error.response.data.message);
   }
 };
 
@@ -20,7 +22,8 @@ export const signup = (inputData, navigateTo) => async (dispatch) => {
     dispatch({ type: AUTH, data });
 
     navigateTo.push('/');
+    toast.success('Successfull signup')
   } catch (error) {
-    console.log(error);
+    toast.error(error.response.data.message);
   }
 };

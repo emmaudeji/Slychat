@@ -4,6 +4,8 @@ import { useDispatch } from 'react-redux';
 import { AUTH } from '../../constants/actionTypes';
 import { signin, signup } from '../../actions/auth.js';
 import { useRouter } from 'next/router';
+import toast, { Toaster } from 'react-hot-toast';
+import { FaEye, FaEyeSlash } from 'react-icons/fa';
 
 
 export const Auth = () => {
@@ -23,19 +25,22 @@ export const Auth = () => {
       if (isSignup) {
         
         if(input.password !== input.repassword) {
-          alert('Password does not match')
+          toast.error('Password does not match')
         } else {
           dispatch(signup(input, navigateTo));
-
         }
 
       } else {
-        dispatch(signin(input, navigateTo));
+        try {
+          dispatch(signin(input, navigateTo));
+        } catch (error) {
+          // console.log('ERRRRRRRRRR', error);
+        }
         // console.log('signIn', input)
       }
       
     } catch (error) {
-      console.log(error);
+      // console.log('ERRRRRRRRRR', error);
     }
 
   }
@@ -63,7 +68,7 @@ export const Auth = () => {
       // console.log('result', result, 'token--', token)
       history.push('/');
     } catch (error) {
-      console.log(error);
+      console.log('GOOOOLE ERRORR', error);
     }
   };
 
@@ -78,7 +83,7 @@ export const Auth = () => {
 
       <div className='border border-zinc-300 max-w-[450px] rounded p-3'>
         
-      
+      <Toaster/>
        <form onSubmit={handleSubmit} className='grid gap-2 pb-4'>
         {isSignup && <div className='flex gap-2
         '> 
@@ -92,20 +97,20 @@ export const Auth = () => {
         </div>
 
       
-        <button type='submit' className='w-full bg-blue-500 p-2 text-center rounded'>
+        <button type='submit' className='w-full bg-blue-500 p-2  cursor-pointer text-center text-white hover:bg-blue-800 duration-300 rounded'>
           {'Submit'}
         </button>
         
         </form>
         
-        <div className='w-full text-center bg-red-500 rounded p-2'>
+        {/* <div className='w-full text-center bg-red-500 hover:bg-red-700 cursor-pointer duration-300 rounded p-2 text-white'>
         <GoogleLogin
             clientId={process.env.GOOGLE_ID}
             render={(renderProps) => (
               <button className='' 
               onClick={renderProps.onClick} 
               disabled={renderProps.disabled} >
-                 {isSignup ? 'Signup with Google' : 'Signin with Google'}
+                 {'Continue with Google'}
               </button>
             )}
             onSuccess={googleSuccess}
@@ -113,7 +118,7 @@ export const Auth = () => {
             cookiePolicy="single_host_origin"
           />
          
-        </div>
+        </div> */}
         
         </div>
 
@@ -131,12 +136,12 @@ export const AuthInput = ({handleChange, type, value, name, title, placeholder, 
   return (
     <div className="flex-1 rounded">
           <p className="text-zinc-700 capitalize">{title}</p>
-          <div className="flex-1 bg-white w-full overflow-hidden py-3 px-4 border border-zinc-300 flex">
+          <div className=" bg-white w-full overflow-hidden p-2 border border-zinc-300 flex items-center">
             <input type={name==='password' ? (showPassword ? 'text' : type) : type} name={name} value={value} placeholder={placeholder} 
             onChange={handleChange}
-            className="w-full flex-1"/>
+            className="w-full focus:outline-none"/>
             {name==='password'  ? <div className="font-bold text-sm" onClick={() => setShowPassword(!showPassword)}>
-              <p>{showPassword ? '<>' : 'x'}</p>
+              <p className='cursor-pointer text-zinc-500'>{showPassword ?<FaEyeSlash /> : <FaEye />}</p>
             </div> : null}
           </div>
         </div>
