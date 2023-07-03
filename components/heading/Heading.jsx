@@ -41,7 +41,7 @@ export const Heading = () => {
 
   return (
     <div className="w-full px-4 sm:px-8 lg:px-16  h-24 flex justify-between border-b border-zinc-300 items-center">
-        <a href="/" className="logo font-bold text-2xl">
+        <a href="/" className="logo font-bold text-2xl  text-green-700">
           Slychat
         </a>
 

@@ -2,7 +2,7 @@
 import { useState, useEffect } from 'react';
 import { useSelector } from 'react-redux';
 import { Post } from './post/Post';
-
+import { BallTriangle } from  'react-loader-spinner'
 
 export const Posts = ({ setCurrentId }) => {
   const allPosts = useSelector((state) => state.posts);
@@ -13,11 +13,22 @@ export const Posts = ({ setCurrentId }) => {
     setPosts(allPosts?.allPosts)
   }, [allPosts])
   
+
+
   // console.log('pppp', allPosts)
   return (
     <>
-      { !allPosts ? (<div className='font-semibold text2xl'> Loading... </div>) :
-        !allPosts?.length ? (<div className='font-semibold text2xl'> Na data in the list </div>) : (
+      { !allPosts?.length ? 
+        <BallTriangle
+        height={100}
+        width={100}
+        radius={5}
+        color="#4fa94d"
+        ariaLabel="ball-triangle-loading"
+        wrapperClass={{}}
+        wrapperStyle=""
+        visible={true}
+      /> : (
           <div className=" grid md:grid-cols-2 xl:grid-cols-3 gap-3">
             {
               allPosts?.map(({ _id, name, creator, title, createdAt, message, likes, selectedFile,  tags }) => (
