@@ -3,7 +3,7 @@ import { useState, useEffect } from "react";
 import FileBase from 'react-file-base64';
 import { createPost, updatePost } from "../../actions/posts";
 import { useDispatch, useSelector } from 'react-redux';
-import {Link} from 'next/link'
+
 import { FormInput } from "./FormInput";
 import { UnsplashPhotos } from "./UnsplashPhotos";
 
@@ -76,7 +76,7 @@ const Form = ({currentId, setCurrentId}) => {
       <div className="grid gap-3 p-4 text-[14px] border border-zinc-300 rounded">
         <p>{`You can register or signin to start adding memories and liking others post.`}</p> 
         <a href='/auth'
-        className="bg-blue-600 p-2 text-white hover:bg-blue-500 duration-300 rounded text-center cursor-pointer">
+        className="bg-green-700 p-2 text-white hover:bg-green-500 duration-300 rounded text-center cursor-pointer">
           Register
         </a>
       </div>
@@ -99,7 +99,7 @@ const Form = ({currentId, setCurrentId}) => {
 {/* for small screen */}
       <div className="w-full p-2 border border-zinc-300 block sm:hidden">
         <div onClick={() => setShow(prev => !prev)}
-        className="flex justify-center items-center p-3 font-semibold mb-2 bg-blue-500 text-white rounded-lg hover:bg-blue-800 duration-300 cursor-pointer">
+        className="flex justify-center items-center p-3 font-semibold mb-2 bg-green-700 text-white rounded-lg hover:bg-green-500 duration-300 cursor-pointer">
           <h3>
             {currentId ? `Editting a Memory` : `Create a Memory`}
           </h3>
@@ -143,12 +143,12 @@ export const PostForm = ({postData, handleChange, handleSubmit, clearData, setPo
         <UnsplashPhotos postData={postData} setPostData={setPostData} pickedImg={pickedImg} setPickedImg={setPickedImg}/>
 
 
-        <button type="submit" className="flex text-white rounded cursor-pointer hover:bg-red-800 duration-300 bg-red-500 w-full p-3 justify-center items-center">
+        <button type="submit" className="flex text-white rounded cursor-pointer hover:bg-red-500 duration-300 bg-red-700 w-full p-3 justify-center items-center">
           Submit
         </button>
 
        
-        <div className="flex text-white cursor-pointer hover:bg-blue-800 duration-300 rounded bg-blue-500 w-full p-3 justify-center items-center"
+        <div className="flex text-white cursor-pointer hover:bg-green-500 duration-300 rounded bg-green-700 w-full p-3 justify-center items-center"
         onClick={clearData}>
           Clear
         </div>

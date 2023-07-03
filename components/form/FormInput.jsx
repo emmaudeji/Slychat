@@ -1,7 +1,7 @@
 
 export const FormInput = ({handleChange, value, title, placeholder}) => {
     return (
-      <div className="flex-1 rounded">
+      <div className="rounded">
             <p className="text-zinc-700 capitalize">{title}</p>
            
               <input type="text" name={title} value={value} placeholder={placeholder} 

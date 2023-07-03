@@ -2,17 +2,45 @@ import moment from 'moment'
 import {MdThumbUp, MdDelete, MdMore, MdThumbUpOutline} from 'react-icons/md';
 import { useDispatch } from 'react-redux';
 import { deletePost, likePost } from '../../../actions/posts';
+import { Toaster, toast } from 'react-hot-toast';
 
 export const Post = ({_id, title, message, selectedFile, creator, likes, createdAt, name, tags,  setCurrentId}) => {
 
 const dispatch = useDispatch()
 const user = JSON.parse(localStorage.getItem('profile'));
 
+const likeThisPost = (id) => {
+  if (!user) {
+    return toast.warning('You are not signed in')
+  }
+  dispatch(likePost(id))
+}
+
+const deleteThisPost = (id) => {
+  if(!user) {
+    return toast.error('You are not signed in')
+  }
+  dispatch(deletePost(id))
+}
+
+const likedByUser = () => {
+  if(user) {
+    const userIdExist = likes?.filter(id => id === user._id);
+    if(userIdExist) {
+      return true
+    } else {
+      return false
+    }
+  } else {
+    return false
+  }
+}
+
 
   return (
     <div>
         <div className="w-full rounded border border-zinc-300  relative">
-      
+        <Toaster/>
       <div className="absolute top-5 right-0 left-0 px-3 z-20 text-white pb-0">
         <div className="flex items-center justify-between">
           <h2 className="font-semibold text-xl">{name} </h2>
@@ -48,11 +76,11 @@ const user = JSON.parse(localStorage.getItem('profile'));
           <div className=""><p>{message}</p></div>
           <div className="flex justify-between items-center" >
 
-            <div onClick={() => dispatch(likePost(_id))}
-            className="flex gap-1 cursor-pointer"> <Likes likes={likes}/> </div>
+            <div onClick={() => likeThisPost(_id)}
+            className="flex gap-1 cursor-pointer"> <Likes likes={likes} likedByUser={likedByUser}/> </div>
             
             {(user?.result?.googleId === creator || user?.result?._id === creator) && ( 
-            <button onClick={() => dispatch(deletePost(_id))}
+            <button onClick={() => deleteThisPost()}
             className='cursor-pointer' ><MdDelete/></button> )}
 
           </div>
@@ -66,14 +94,18 @@ const user = JSON.parse(localStorage.getItem('profile'));
 
 
 
-export const Likes = ({likes}) => {
+export const Likes = ({likes, likedByUser}) => {
+  
+  const liked = likedByUser()
+
   if(likes?.length > 0) {
     return (
       <div className='text-sm flex gap-2'>
         <MdThumbUp/>
         <p>
         {
-          likes?.length > 1 ? `You and ${likes?.length - 1} others`  : `${likes?.length} like${likes?.length > 1 ? 's' : ''}`
+          liked && likes?.length > 1 ? `You and ${likes?.length - 1} others`  : `${likes?.length} like${likes?.length > 1 ? 's' : ''}`
+        
         }
         </p>
       </div>

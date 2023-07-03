@@ -1,9 +1,10 @@
 import { useState, useEffect } from "react"
-import { Link} from "next/link"
 import { useDispatch,  } from "react-redux"
 import { LOGOUT } from "../../constants/actionTypes"
 import decode from 'jwt-decode';
 import { useRouter } from "next/router";
+import DesktopNav from "./DesktopNav";
+import MobileNav from "./MobileNav";
 
 export const Heading = () => {
   const [user, setUser] = useState(JSON.parse(typeof window !== "undefined" ? window.localStorage.getItem('profile') : false));
@@ -44,26 +45,14 @@ export const Heading = () => {
           Chatboard
         </a>
 
-        <div className="text-[14px] capitalize flex items-center gap-2 sm:gap-4 justify-end ">
-         {user ? ( <>
-              <div className="rounded-full text-white bg-green-700 p-2 h-8 w-8 flex items-center justify-center">
-                <p>{user?.result.name[0]}</p>
-              </div>
-              <div>
-                <p className=" font-semibold">{user?.result.name}</p>
-              </div>
-            </>
-          ) : null}
-
-          {!user ? <a href={'/auth'} className="rounded-full text-white bg-green-700 py-2 cursor-pointer  px-8 ">
-            {'Sign In'}
-          </a> : 
-          <div onClick={logout}
-          className="rounded-full text-white bg-green-700 py-2  cursor-pointer   px-8 ">
-            {'Sign Out'}
-          </div>}
-          
+        <div className="hidden sm:flex">
+          <DesktopNav user={user} logout={logout}/>
         </div>
+
+        <div className="sm:hidden flex">
+          <MobileNav user={user} logout={logout}/>
+        </div>
+
       </div>
 
   )
