@@ -11,7 +11,7 @@ const user = JSON.parse(localStorage.getItem('profile'));
 
 const likeThisPost = (id) => {
   if (!user) {
-    return toast.warning('You are not signed in')
+    return toast.error('You are not signed in')
   }
   dispatch(likePost(id))
 }

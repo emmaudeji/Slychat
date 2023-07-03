@@ -11,7 +11,7 @@ export const connectToDB = async () => {
   }
 
   try {
-    const res = await mongoose.connect(process.env.MONGODB_URI,
+    const res = await mongoose.connect(process.env.LOCAL_DB,
         {
       dbName: "chatboard",
       useNewUrlParser: true,
